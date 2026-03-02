@@ -300,6 +300,13 @@ sai_status_t stub_sai_create_lag_member(
         return SAI_STATUS_INVALID_PARAMETER;
     }
 
+    uint32_t port_db_idx;
+    status = stub_object_to_type(port_id_val->oid, SAI_OBJECT_TYPE_PORT, &port_db_idx);
+    if (status != SAI_STATUS_SUCCESS) {
+        printf("Invalid PORT OID 0x%lx\n", port_id_val->oid);
+        return SAI_STATUS_INVALID_PARAMETER;
+    }
+
     if (lag_db.lags[lag_db_idx].member_count >= MAX_NUMBER_OF_LAG_MEMBERS) {
         printf("LAG is full - cannot add more members (max %d)\n", MAX_NUMBER_OF_LAG_MEMBERS);
         return SAI_STATUS_TABLE_FULL;
